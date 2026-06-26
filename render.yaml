@@ -1,0 +1,35 @@
+services:
+  - type: web
+    name: flowform-api
+    runtime: node
+    plan: free
+    rootDir: .
+    buildCommand: corepack enable && corepack prepare pnpm@9.0.0 --activate && pnpm install --frozen-lockfile && pnpm --filter @repo/api build
+    preDeployCommand: pnpm --filter @repo/database db:migrate
+    startCommand: pnpm --filter @repo/api start
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_VERSION
+        value: 20
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: flowform-postgres
+          property: connectionString
+      - key: BASE_URL
+        sync: false
+      - key: WEB_APP_URL
+        sync: false
+      - key: EMAIL_USER
+        sync: false
+      - key: EMAIL_PASS
+        sync: false
+      - key: EMAIL_FROM
+        sync: false
+
+databases:
+  - name: flowform-postgres
+    plan: free
+    databaseName: flowform
+    user: flowform

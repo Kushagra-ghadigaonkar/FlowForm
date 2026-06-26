@@ -1,0 +1,623 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+:root {
+  --radius: 0.625rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.556 0 0);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Theme Utilities & Animations */
+
+/* 1. Spider-Man Comic Theme */
+.theme-spiderman-halftone {
+  background-color: #0c1830;
+  background-image: radial-gradient(rgba(240, 45, 58, 0.15) 15%, transparent 16%),
+                    radial-gradient(rgba(240, 45, 58, 0.15) 15%, transparent 16%);
+  background-size: 16px 16px;
+  background-position: 0 0, 8px 8px;
+}
+
+.font-comic {
+  font-family: 'Luckiest Guy', 'Bangers', Impact, sans-serif;
+  letter-spacing: 0.05em;
+}
+
+@keyframes web-pull {
+  0% {
+    transform: translateY(-80px) scaleY(0.1);
+    opacity: 0;
+  }
+  40% {
+    transform: translateY(15px) scaleY(1.1);
+    opacity: 1;
+  }
+  70% {
+    transform: translateY(-5px) scaleY(0.95);
+  }
+  100% {
+    transform: translateY(0) scaleY(1);
+    opacity: 1;
+  }
+}
+
+.animate-web-pull {
+  animation: web-pull 0.65s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+/* 2. Batman Gothic Theme */
+.theme-batman-vignette {
+  background: radial-gradient(circle, #1a1a1a 0%, #080808 100%);
+}
+
+.font-gothic {
+  font-family: 'Cinzel', serif;
+  letter-spacing: 0.15em;
+}
+
+@keyframes bat-fade {
+  0% {
+    opacity: 0;
+    transform: scale(0.95) translateY(10px);
+    filter: blur(4px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    filter: blur(0);
+  }
+}
+
+.animate-bat-fade {
+  animation: bat-fade 0.5s ease-out forwards;
+}
+
+/* 3. Cyberpunk Theme */
+.theme-cyberpunk-grid {
+  background-color: #080810;
+  background-image: 
+    linear-gradient(rgba(0, 240, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 240, 255, 0.04) 1px, transparent 1px);
+  background-size: 30px 30px;
+}
+
+.font-cyber {
+  font-family: 'Orbitron', 'Share Tech Mono', monospace;
+}
+
+@keyframes glitch {
+  0% {
+    text-shadow: 2px 0 0 #ff0055, -2px 0 0 #00f0ff;
+    transform: skew(0deg);
+  }
+  20% {
+    text-shadow: -2px 0 0 #ff0055, 2px 0 0 #00f0ff;
+    transform: skew(1deg);
+  }
+  40% {
+    text-shadow: 2px 0 0 #ff0055, -2px 0 0 #00f0ff;
+    transform: skew(-1deg);
+  }
+  60% {
+    text-shadow: 0 0 0 #ff0055, 0 0 0 #00f0ff;
+    transform: skew(0deg);
+  }
+  100% {
+    transform: skew(0deg);
+  }
+}
+
+.animate-glitch {
+  animation: glitch 1s infinite alternate-reverse;
+}
+
+/* 4. Sakura Theme */
+.theme-sakura-bg {
+  background: linear-gradient(135deg, #fff5f6 0%, #ffeef0 100%);
+}
+
+.font-sakura {
+  font-family: 'Playfair Display', 'Great Vibes', serif;
+}
+
+@keyframes petal-fall {
+  0% {
+    transform: translateY(-20px) rotate(0deg) translateX(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.8;
+  }
+  90% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(105vh) rotate(720deg) translateX(80px);
+    opacity: 0;
+  }
+}
+
+.animate-petal {
+  position: absolute;
+  top: -5%;
+  pointer-events: none;
+  z-index: 1;
+  animation: petal-fall 10s linear infinite;
+}
+
+/* Transition Slides for standard / general card transitions */
+@keyframes slide-in-up {
+  0% {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-in-down {
+  0% {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-up {
+  animation: slide-in-up 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-slide-down {
+  animation: slide-in-down 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* FlowForm-inspired premium stark Cartoon Noir & Comic-Book theme */
+.theme-flowform-kingdom {
+  background-color: #050507;
+  background-image: 
+    radial-gradient(rgba(255, 255, 255, 0.05) 12%, transparent 13%),
+    radial-gradient(rgba(255, 255, 255, 0.05) 12%, transparent 13%),
+    linear-gradient(rgba(255, 255, 255, 0.008) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.008) 1px, transparent 1px);
+  background-size: 16px 16px, 16px 16px, 40px 40px, 40px 40px;
+  background-position: 0 0, 8px 8px, 0 0, 0 0;
+}
+
+.font-flow-display {
+  font-family: var(--font-geist-sans), "Outfit", "Inter", system-ui, -apple-system, sans-serif;
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+}
+
+.flow-gold-shine {
+  background: #0d0d10;
+  border: 3px solid #1c1c1f;
+  box-shadow: 6px 6px 0px #000;
+  border-radius: 12px;
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.flow-gold-shine:hover {
+  transform: translateY(-2px) scale(1.005);
+  box-shadow: 8px 8px 0px #000;
+}
+
+.flow-kingdom-band {
+  background: #111113;
+  border-y: 3px solid #000000;
+  box-shadow: inset 0 8px 0 rgba(0, 0, 0, 0.15);
+}
+
+.flow-hero-frame {
+  border: 3px solid #000000;
+  border-radius: 16px;
+  background-color: #070708;
+  box-shadow: 8px 8px 0px #18181b;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+}
+
+.flow-hero-frame:hover {
+  transform: scale(1.01) rotate(-0.5deg) translateY(-4px);
+  box-shadow: 12px 12px 0px #000000;
+}
+
+.flow-coc-hero-bg {
+  background-image:
+    radial-gradient(circle at 50% -20%, rgba(255, 255, 255, 0.04) 0%, transparent 65%),
+    radial-gradient(circle at 50% 120%, rgba(255, 255, 255, 0.02) 0%, transparent 50%);
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.flow-auth-bg::before {
+  content: "";
+  position: absolute;
+  inset: -24px;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.04) 0%, transparent 80%),
+    #050507;
+  filter: blur(16px);
+  transform: scale(1.04);
+}
+
+@keyframes flow-dashboard-enter {
+  0% {
+    opacity: 0;
+    transform: scale(0.96) translateY(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes flow-dashboard-rise {
+  0% {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes flow-dashboard-row {
+  0% {
+    opacity: 0;
+    transform: translateX(-8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes flow-dashboard-pulse {
+  0%, 100% {
+    box-shadow: 4px 4px 0px #000;
+    transform: translateY(0);
+  }
+  50% {
+    box-shadow: 6px 6px 0px #000;
+    transform: translateY(-2px);
+  }
+}
+
+@keyframes flow-dashboard-line {
+  0% {
+    stroke-dashoffset: 560;
+    opacity: 0;
+  }
+  30% {
+    opacity: 0.55;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
+
+.flow-dashboard-shell {
+  animation: flow-dashboard-enter 400ms cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+}
+
+.flow-dashboard-rise {
+  animation: flow-dashboard-rise 450ms cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+}
+
+.flow-dashboard-hero {
+  animation-delay: 60ms;
+}
+
+.flow-dashboard-panel {
+  animation: flow-dashboard-rise 500ms cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+}
+
+.flow-dashboard-metric {
+  animation: flow-dashboard-rise 450ms cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+  transition:
+    transform 220ms cubic-bezier(0.175, 0.885, 0.32, 1.275),
+    border-color 220ms ease,
+    box-shadow 220ms ease;
+}
+
+.flow-dashboard-metric:hover {
+  border-color: #52525b;
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 8px 8px 0px #000000;
+}
+
+.flow-dashboard-template,
+.flow-dashboard-row {
+  transition:
+    transform 200ms cubic-bezier(0.175, 0.885, 0.32, 1.275),
+    border-color 200ms ease,
+    background-color 200ms ease,
+    box-shadow 200ms ease;
+}
+
+.flow-dashboard-template:hover {
+  transform: translateY(-3px) rotate(-0.5deg);
+  border-color: #3f3f46;
+  box-shadow: 5px 5px 0px #000000;
+  background-color: #0f0f11;
+}
+
+.flow-dashboard-row {
+  animation: flow-dashboard-row 400ms cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+}
+
+.flow-dashboard-row:hover {
+  transform: translateX(6px) scale(1.005);
+  box-shadow: inset 4px 0 0 #f4f4f5, 0 4px 12px rgba(0, 0, 0, 0.4);
+  background-color: #0f0f11;
+}
+
+.flow-dashboard-cta {
+  animation: flow-dashboard-pulse 3s ease-in-out infinite;
+}
+
+.flow-dashboard-lines path {
+  stroke-dasharray: 560;
+  animation: flow-dashboard-line 1.2s ease-out both;
+}
+
+.flow-dashboard-lines path:nth-child(2) {
+  animation-delay: 100ms;
+}
+
+.flow-dashboard-lines path:nth-child(3) {
+  animation-delay: 200ms;
+}
+
+/* Monochromatic / Rubber-hose Comic Animations */
+@keyframes rubber-hose-wiggle {
+  0%, 100% {
+    transform: rotate(-1.5deg) scaleX(1);
+  }
+  50% {
+    transform: rotate(1.5deg) scaleX(0.98);
+  }
+}
+.animate-cartoon-wiggle {
+  animation: rubber-hose-wiggle 1.8s ease-in-out infinite;
+}
+
+@keyframes cartoon-squish {
+  0%, 100% {
+    transform: scale(1, 1);
+  }
+  30% {
+    transform: scale(1.05, 0.92);
+  }
+  60% {
+    transform: scale(0.95, 1.05);
+  }
+}
+.hover-cartoon-squish:hover {
+  animation: cartoon-squish 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-6px) rotate(0.5deg);
+  }
+}
+.animate-float {
+  animation: float 5s ease-in-out infinite;
+}
+
+@keyframes pulse-slow {
+  0%, 100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 0.9;
+  }
+}
+.animate-pulse-slow {
+  animation: pulse-slow 6s ease-in-out infinite;
+}
+
+/* Spider-Man Noir Interactive Animations */
+@keyframes spiderman-swing {
+  0% {
+    transform: rotate(-5deg);
+    transform-origin: 50% 0%;
+  }
+  50% {
+    transform: rotate(5deg);
+    transform-origin: 50% 0%;
+  }
+  100% {
+    transform: rotate(-5deg);
+    transform-origin: 50% 0%;
+  }
+}
+.animate-spiderman-swing {
+  animation: spiderman-swing 2.8s ease-in-out infinite;
+}
+
+@keyframes web-grow {
+  0%, 100% {
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dashoffset: 12;
+  }
+}
+.animate-web-grow {
+  stroke-dasharray: 25;
+  animation: web-grow 2.5s ease-in-out infinite;
+}
+
+@keyframes spiderman-hover-leap {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(-1deg);
+  }
+}
+.animate-spiderman-hover-leap {
+  animation: spiderman-hover-leap 2.5s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flow-dashboard-shell,
+  .flow-dashboard-rise,
+  .flow-dashboard-panel,
+  .flow-dashboard-metric,
+  .flow-dashboard-row,
+  .flow-dashboard-lines path,
+  .animate-cartoon-wiggle,
+  .animate-float,
+  .animate-spiderman-swing,
+  .animate-web-grow,
+  .animate-spiderman-hover-leap {
+    animation: none !important;
+  }
+
+  .flow-dashboard-cta {
+    animation: none !important;
+  }
+
+  .flow-dashboard-metric,
+  .flow-dashboard-template,
+  .flow-dashboard-row,
+  .flow-dashboard-cta {
+    transition: none !important;
+  }
+
+  .flow-dashboard-metric:hover,
+  .flow-dashboard-template:hover,
+  .flow-dashboard-row:hover,
+  .flow-dashboard-cta:hover {
+    transform: none !important;
+  }
+}
