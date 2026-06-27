@@ -102,6 +102,32 @@ pnpm --filter @repo/api dev
 pnpm --filter web dev
 ```
 
+## Required Build Structure For Building with pnpm and turbo
+```text
+my-turborepo/
+├── apps/
+│   └── web/                         # Next.js application
+│       ├── src/                     # Application source code
+│       ├── next.config.ts           # Next.js configuration
+│       └── package.json             # App-specific dependencies
+│
+├── packages/
+│   ├── ui/                          # Shared React component library
+│   │   ├── src/
+│   │   └── package.json
+│   │
+│   ├── typescript-config/           # Shared TypeScript configurations
+│   │   └── package.json
+│   │
+│   └── eslint-config/               # Shared ESLint configuration
+│       └── package.json
+│
+├── package.json                     # Root scripts & workspace dependencies
+├── pnpm-lock.yaml                   # Lockfile (auto-generated)
+├── pnpm-workspace.yaml              # Defines PNPM workspace packages
+└── turbo.json                       # Turborepo pipeline & caching configuration
+```
+
 ## Useful Routes
 
 - `/` - SaaS landing page and demo showcase.

@@ -1,0 +1,21 @@
+# Block all node_modules in every subfolder globally
+**/node_modules
+node_modules
+
+# Block Next.js local build outputs
+**/.next
+.next
+
+# Block pnpm global store leftovers
+**/.pnpm-store
+.pnpm-store
+
+# Block environment secrets and git histories
+.git
+.gitignore
+**/.env*.local
+
+# Block IDE configuration files
+.vscode
+Dockerfile
+.env*
