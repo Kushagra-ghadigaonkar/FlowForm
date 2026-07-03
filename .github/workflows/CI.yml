@@ -62,7 +62,8 @@ jobs:
       - name: docker build and push
         uses: docker/build-push-action@v7
         with:
-          context: ./apps/${{ matrix.workdir }}
+          context: .
+          file: ./apps/${{ matrix.workdir }}/Dockerfile
           push: true
           tags: ${{ vars.DOCKERHUB_USERNAME }}/flowform-${{ matrix.workdir }}:latest
   deploy:
