@@ -2,7 +2,7 @@ name: Ci
 
 on:
   push:
-    bran
+    branches: [master]
 
 jobs:
   # frontend:
@@ -67,5 +67,5 @@ jobs:
           tags: ${{ vars.DOCKERHUB_USERNAME }}/flowform-${{ matrix.workdir }}:latest
   deploy:
     needs: [build]
-    uses: ./.github/workflows/cd.yml
+    uses: ./.github/workflows/CD.yml
     secrets: inherit
