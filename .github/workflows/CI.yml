@@ -1,5 +1,22 @@
 name: Ci
 
+on:
+  workflow_dispatch:
+
 jobs:
   frontend:
-    runs-on: node
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v7
+      
+      - name: setup pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: 9.0.0
+
+      - name: setup node
+        uses: actions/setup-node@v6
+      
+      - name: install dependencies
+        run: pnpm install
