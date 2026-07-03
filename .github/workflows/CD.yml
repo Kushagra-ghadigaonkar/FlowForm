@@ -20,7 +20,7 @@ jobs:
         run: |
           cat > .env <<EOF
           POSTGRES_LOCAL_PORT=${{ secrets.POSTGRES_LOCAL_PORT }}
-          OSTGRES_USER=${{ secrets.POSTGRES_USER }}
+          POSTGRES_USER=${{ secrets.POSTGRES_USER }}
           POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
           POSTGRES_DB=${{ secrets.POSTGRES_DB }}
           BACKEND_LOCAL_PORT=${{ secrets.BACKEND_LOCAL_PORT }}
@@ -29,6 +29,7 @@ jobs:
           NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}
           FRONTEND_LOCAL_PORT=${{ secrets.FRONTEND_LOCAL_PORT }}
           FRONTEND_PORT=${{ secrets.FRONTEND_PORT }}
+
           EOF
 
       - name: Deploy the container with docker compose
