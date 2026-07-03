@@ -2,30 +2,70 @@ name: Ci
 
 on:
   push:
+    bran
 
 jobs:
-  frontend:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout the code
-        uses: actions/checkout@v7
+  # frontend:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout the code
+  #       uses: actions/checkout@v7
       
-      - name: setup pnpm
-        uses: pnpm/action-setup@v6
-        with:
-          version: 9.0.0
+  #     - name: setup pnpm
+  #       uses: pnpm/action-setup@v6
+  #       with:
+  #         version: 9.0.0
 
-      - name: setup node
-        uses: actions/setup-node@v6
-      
-      - name: install dependencies
-        run: pnpm install --frozen-lockfile
+  #     - name: setup node
+  #       uses: actions/setup-node@v6                         ## Currently this project dont have the
+  #                                                              Correct lint code when it will be correctly
+  #                                                              then this code will be eligible
+  #     - name: install dependencies
+  #       run: pnpm install --frozen-lockfile
 
-      - name: Build frontend
-        run: pnpm turbo build --filter=web
+  #     - name: Build frontend
+  #       run: pnpm turbo build --filter=web
   # backend:
   #   runs-on: ubuntu-latest
   #   steps:
   #     - name: checkout the code
   #       uses: actions/checkout@v7
+    
+  #     - name: setup pnpm
+  #       uses: pnpm/action-setup@v6
+  #       with:
+  #         version: 9.0.0
 
+  #     - name: setup node
+  #       uses: actions/setup-node@v6
+      
+  #     - name: Install dependencies
+  #       run: pnpm install --frozen-lockfile
+
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        workdir: ['web','api']
+    
+    steps:
+      - name: checkout the code
+        uses: actions/checkout@v7
+
+      - name: docker login
+        uses: docker/login-action@v4
+        with:
+          username: ${{ vars.DOCKERHUB_USERNAME }}
+          password: ${{ vars.DOCKERHUB_TOKEN }}
+      
+      - name: docker build and push
+        uses: docker/build-push-action@v7
+        with:
+          context: ./apps/${{ matrix.workdir }}
+          push: true
+          tags: ${{ vars.DOCKERHUB_USERNAME }}/flowform-${{ matrix.workdir }}:latest
+  deploy:
+    needs: [build]
+    uses: ./.github/workflows/cd.yml
+    secrets: inherit
