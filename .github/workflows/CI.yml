@@ -19,4 +19,16 @@ jobs:
         uses: actions/setup-node@v6
       
       - name: install dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
+
+      - name: Typecheck frontend
+        run: pnpm turbo typecheck --filter=web
+
+      - name: Build frontend
+        run: pnpm turbo build --filter=web
+  # backend:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: checkout the code
+  #       uses: actions/checkout@v7
+
