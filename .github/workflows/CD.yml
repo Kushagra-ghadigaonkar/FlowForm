@@ -1,6 +1,6 @@
 name: cd
 
-on: 
+on:
   workflow_call:
 
 jobs:
@@ -15,6 +15,22 @@ jobs:
         with:
           username: ${{ vars.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Create .env
+        run: |
+          cat > .env <<EOF
+          POSTGRES_LOCAL_PORT=${{ secrets.POSTGRES_LOCAL_PORT }}
+          OSTGRES_USER=${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
+          POSTGRES_DB=${{ secrets.POSTGRES_DB }}
+          BACKEND_LOCAL_PORT=${{ secrets.BACKEND_LOCAL_PORT }}
+          BACKEND_PORT=${{ secrets.BACKEND_PORT }}
+          DATABASE_URL=${{ secrets.DATABASE_URL }}
+          NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}
+          FRONTEND_LOCAL_PORT=${{ secrets.FRONTEND_LOCAL_PORT }}
+          FRONTEND_PORT=${{ secrets.FRONTEND_PORT }}
+          EOF
+
       - name: Deploy the container with docker compose
         run: |
           docker compose pull
