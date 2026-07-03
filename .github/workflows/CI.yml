@@ -1,0 +1,5 @@
+name: Ci
+
+jobs:
+  frontend:
+    runs-on: node

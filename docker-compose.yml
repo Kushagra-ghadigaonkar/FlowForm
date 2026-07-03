@@ -29,12 +29,17 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+    command: >
+      sh -c "pnpm --filter @repo/database db:migrate &&
+            pnpm --filter api start"
     restart: unless-stopped
   
   web:
     build:
       context: .
       dockerfile: apps/web/Dockerfile
+      args:
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
     image: flow-fe
     ports:
       - "${FRONTEND_LOCAL_PORT}:${FRONTEND_PORT}"
