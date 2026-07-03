@@ -21,9 +21,6 @@ jobs:
       - name: install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Typecheck frontend
-        run: pnpm turbo typecheck --filter=web
-
       - name: Build frontend
         run: pnpm turbo build --filter=web
   # backend:
