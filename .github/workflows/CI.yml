@@ -5,45 +5,32 @@ on:
     branches: [master]
 
 jobs:
-  # frontend:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout the code
-  #       uses: actions/checkout@v7
+  code-linting:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v7
       
-  #     - name: setup pnpm
-  #       uses: pnpm/action-setup@v6
-  #       with:
-  #         version: 9.0.0
+      - name: setup pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: 9.0.0
 
-  #     - name: setup node
-  #       uses: actions/setup-node@v6                         ## Currently this project dont have the
-  #                                                              Correct lint code when it will be correctly
-  #                                                              then this code will be eligible for ci
-  #     - name: install dependencies
-  #       run: pnpm install --frozen-lockfile
+      - name: setup node
+        uses: actions/setup-node@v6                       
+                                                                             
+      - name: install dependencies
+        run: pnpm install --frozen-lockfile
 
-  #     - name: Build frontend
-  #       run: pnpm turbo build --filter=web
-  # backend:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: checkout the code
-  #       uses: actions/checkout@v7
-    
-  #     - name: setup pnpm
-  #       uses: pnpm/action-setup@v6
-  #       with:
-  #         version: 9.0.0
-
-  #     - name: setup node
-  #       uses: actions/setup-node@v6
+      - name: linting the code
+        run: pnpm lint
       
-  #     - name: Install dependencies
-  #       run: pnpm install --frozen-lockfile
+      - name: checking types
+        run: pnpm check-types
 
   build:
     runs-on: ubuntu-latest
+    needs: [linting]
     strategy:
       fail-fast: true
       matrix:
@@ -69,6 +56,6 @@ jobs:
           build-args: |
             NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}
   deploy:
-    needs: [build]
+    needs: [linting,build]
     uses: ./.github/workflows/CD.yml
     secrets: inherit
