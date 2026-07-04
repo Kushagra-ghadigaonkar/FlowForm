@@ -1,7 +1,7 @@
 kind: Deployment
 apiVersion: apps/v1
 metadata:
-  name: backend-deployment
+  name: web-deployment
   namespace: flowform-app
   labels:
     app: flowform
@@ -16,7 +16,7 @@ spec:
         app: flowform
     spec:
       containers:
-        - name: backend-container
-          image: kushagr488/flowform-api
+        - name: web-container
+          image: kushagr488/flowform-web
           ports:
-            - containerPort: 8000
+            - containerPort: 3000
