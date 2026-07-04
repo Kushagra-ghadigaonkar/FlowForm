@@ -66,6 +66,8 @@ jobs:
           file: ./apps/${{ matrix.workdir }}/Dockerfile
           push: true
           tags: ${{ vars.DOCKERHUB_USERNAME }}/flowform-${{ matrix.workdir }}:latest
+          build-args: |
+            NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}
   deploy:
     needs: [build]
     uses: ./.github/workflows/CD.yml
