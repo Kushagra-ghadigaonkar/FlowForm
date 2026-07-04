@@ -1,0 +1,22 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: backend-deployment
+  namespace: flowform-app
+  labels:
+    app: flowform
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: flowform
+  template:
+    metadata:
+      labels:
+        app: flowform
+    spec:
+      containers:
+        - name: backend-container
+          image: kushagr488/flowform-api
+          ports:
+            - containerPort: 8000
