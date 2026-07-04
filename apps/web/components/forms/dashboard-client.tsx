@@ -351,7 +351,7 @@ export function DashboardClient() {
               disabled={createForm.isPending}
             >
               {createForm.isPending ? <Loader2 className="animate-spin" /> : <Plus />}
-              Create form
+              Create flowform 
             </Button>
           </section>
 
