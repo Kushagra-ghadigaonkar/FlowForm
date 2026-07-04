@@ -10,14 +10,12 @@ import {
   CalendarDays,
   Check,
   CircleDot,
-  Coins,
   Copy,
   Crown,
   Eye,
   Gem,
   Hammer,
   Hash,
-  HeartPulse,
   List,
   Loader2,
   Mail,
@@ -34,8 +32,6 @@ import {
   Wand2,
 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
-
-import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
 import {
   Dialog,

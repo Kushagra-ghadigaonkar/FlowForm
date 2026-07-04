@@ -1,5 +1,5 @@
 "use client";
-
+import { useCallback } from "react";
 import type { RouterOutputs } from "@repo/trpc/client";
 import { ArrowLeft, ArrowRight, Check, Loader2 } from "lucide-react";
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
@@ -173,7 +173,7 @@ export function FormRunner({ slug }: { slug: string }) {
   const [error, setError] = useState<string | null>(null);
   const [submittedId, setSubmittedId] = useState<string | null>(null);
   const [slideDirection, setSlideDirection] = useState<"up" | "down">("up");
-  const nextRef = useRef<() => Promise<void>>(null as any);
+  const nextRef = useRef<(() => Promise<void>) | null>(null);
 
   useEffect(() => {
     setIndex(-1);
@@ -274,16 +274,32 @@ export function FormRunner({ slug }: { slug: string }) {
         },
       });
       setSubmittedId(response.responseId);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Submission failed:", err);
-      setError(err?.message || "An unexpected error occurred during submission. Please try again.");
+
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError("An unexpected error occurred during submission. Please try again.");
+      }
     }
   }
 
   nextRef.current = next;
 
-  function back() {
+  // function back() {
+  //   if (submitMutation.isPending) return;
+  //   if (index > 0) {
+  //     setSlideDirection("down");
+  //     setIndex((current) => current - 1);
+  //   } else if (index === 0) {
+  //     setSlideDirection("down");
+  //     setIndex(-1);
+  //   }
+  // }
+  const back = useCallback(() => {
     if (submitMutation.isPending) return;
+
     if (index > 0) {
       setSlideDirection("down");
       setIndex((current) => current - 1);
@@ -291,8 +307,7 @@ export function FormRunner({ slug }: { slug: string }) {
       setSlideDirection("down");
       setIndex(-1);
     }
-  }
-
+  }, [index, submitMutation.isPending]);
   // Keyboard controls effect
   useEffect(() => {
     if (!form) return;
@@ -319,14 +334,14 @@ export function FormRunner({ slug }: { slug: string }) {
       if (activeTag === "input" || activeTag === "textarea") {
         if (e.key === "Enter") {
           e.preventDefault();
-          void nextRef.current();
+          void nextRef.current?.();
         }
         return;
       }
 
       if (e.key === "Enter") {
         e.preventDefault();
-        void nextRef.current();
+        void nextRef.current?.();
         return;
       }
 
@@ -359,7 +374,7 @@ export function FormRunner({ slug }: { slug: string }) {
             } else {
               setAnswer(currentQuestion.id, option.value);
               setTimeout(() => {
-                void nextRef.current();
+                void nextRef.current?.();
               }, 300);
             }
           }
@@ -369,13 +384,13 @@ export function FormRunner({ slug }: { slug: string }) {
           e.preventDefault();
           setAnswer(currentQuestion.id, true);
           setTimeout(() => {
-            void nextRef.current();
+            void nextRef.current?.();
           }, 300);
         } else if (e.key.toLowerCase() === "n") {
           e.preventDefault();
           setAnswer(currentQuestion.id, false);
           setTimeout(() => {
-            void nextRef.current();
+            void nextRef.current?.();
           }, 300);
         }
       } else if (currentQuestion.type === "rating") {
@@ -384,7 +399,7 @@ export function FormRunner({ slug }: { slug: string }) {
           e.preventDefault();
           setAnswer(currentQuestion.id, num);
           setTimeout(() => {
-            void nextRef.current();
+            void nextRef.current?.();
           }, 300);
         }
       }
@@ -392,7 +407,7 @@ export function FormRunner({ slug }: { slug: string }) {
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [index, answers, form, submitMutation.isPending]);
+  }, [index, answers, form, submitMutation.isPending,back]);
 
   if (formQuery.isLoading) {
     return (
@@ -573,7 +588,7 @@ export function FormRunner({ slug }: { slug: string }) {
                         setAnswer={(value) => setAnswer(question.id, value)}
                         activeTheme={activeTheme}
                         presetKey={presetKey}
-                        next={() => void nextRef.current()}
+                        next={() => void nextRef.current?.()}
                       />
                     )}
                     {error && (
@@ -607,7 +622,7 @@ export function FormRunner({ slug }: { slug: string }) {
             )}
             <Button
               disabled={submitMutation.isPending}
-              onClick={() => void nextRef.current()}
+              onClick={() => void nextRef.current?.()}
               className={presetKey !== "default" ? activeTheme.navButtonClass : ""}
               style={presetKey === "default" ? { background: form.theme.accent, color: "#ffffff" } : {}}
             >

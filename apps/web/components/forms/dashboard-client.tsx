@@ -9,7 +9,6 @@ import {
   ArrowRight,
   BarChart3,
   Check,
-  CircleDollarSign,
   Copy,
   Eye,
   ExternalLink,
@@ -18,8 +17,6 @@ import {
   LayoutDashboard,
   Loader2,
   Lock,
-  LogOut,
-  Mail,
   Pencil,
   Plus,
   Search,
@@ -182,7 +179,7 @@ export function DashboardClient() {
     },
   });
 
-  const logout = trpc.auth.logout.useMutation();
+  // const logout = trpc.auth.logout.useMutation();
   const removeForm = trpc.forms.remove.useMutation({
     async onSuccess() {
       setDeleteTarget(null);
@@ -192,13 +189,13 @@ export function DashboardClient() {
   });
   const bulkRemoveForm = trpc.forms.remove.useMutation();
 
-  async function handleLogout() {
-    await logout.mutateAsync(null);
-    utils.auth.me.setData(undefined, null);
-    utils.forms.list.setData(undefined, []);
-    await utils.auth.me.invalidate();
-    await utils.forms.list.invalidate();
-  }
+  // async function handleLogout() {
+  //   await logout.mutateAsync(null);
+  //   utils.auth.me.setData(undefined, null);
+  //   utils.forms.list.setData(undefined, []);
+  //   await utils.auth.me.invalidate();
+  //   await utils.forms.list.invalidate();
+  // }
 
   const visibleForms = useMemo(() => {
     let rows = forms.data ?? [];
