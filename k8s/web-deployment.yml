@@ -17,6 +17,9 @@ spec:
     spec:
       containers:
         - name: web-container
+          envFrom:
+            - configMapRef:
+                name: app-config
           image: kushagr488/flowform-web
           ports:
             - containerPort: 3000

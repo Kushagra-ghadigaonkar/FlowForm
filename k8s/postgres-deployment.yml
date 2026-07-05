@@ -4,19 +4,29 @@ metadata:
   name: postgres-deployment
   namespace: flowform-app
   labels:
-    app: flowform
+    app: postgres
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: flowform
+      app: postgres
   template:
     metadata:
       labels:
-        app: flowform
+        app: postgres
     spec:
       containers:
         - name: postgres-container
-          image: kushagr488/flowform-web
+          image: postgres:17
           ports:
-            - containerPort: 3000
+            - containerPort: 5432
+          envFrom:
+            - secretRef:
+                name: app-secret
+          volumeMounts:
+              - name: postgres-storage
+                mountPath: /var/lib/postgresql/data
+      volumes:
+        - name: postgres-storage
+          persistentVolumeClaim:
+            claimName: local-pvc   

@@ -1,33 +1,33 @@
 kind: Deployment
 apiVersion: apps/v1
 metadata:
-  name: backend-deployment
+  name: api-deployment
   namespace: flowform-app
   labels:
-    app: flowform
+    app: postgres-api
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: flowform
+      app: postgres-api
   template:
     metadata:
       labels:
-        app: flowform
+        app: postgres-api
     spec:
       containers:
-        - name: backend-container
+        - name: api-container
           image: kushagr488/flowform-api
           imagePullPolicy: Always
           ports:
             - containerPort: 8000
-          env:
-            - name: DATABASE_URL
-              valueFrom:
-                secretKeyRef:
-                  name: database-secret
-                  key: DATABASE_URL
+          envFrom:
+            - secretRef:
+                name: app-secret
+            - configMapRef:
+                name: app-config
 
           command:
-            - pnpm
-            - start
+            - sh
+            - -c
+            - pnpm --filter @repo/api start

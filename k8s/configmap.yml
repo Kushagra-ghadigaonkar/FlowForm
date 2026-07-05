@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+  namespace: flowform-app
+data:
+  BASE_URL: "http://flowform.local:8080"
+  WEB_APP_URL: "http://flowform.local:8080"
+  NEXT_PUBLIC_API_URL: "/api/trpc"
+  NODE_ENV: "production"
+  POSTGRES_LOCAL_PORT: "5432"
+  BACKEND_PORT: "8000"
+  FRONTEND_PORT: "3000"

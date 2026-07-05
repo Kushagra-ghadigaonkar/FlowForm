@@ -36,3 +36,16 @@ jobs:
         run: |
           docker compose pull
           docker compose up -d
+        
+      - name: Create Application Secret
+        run: |
+          kubectl create secret generic app-secret \
+            --namespace flowform-app \
+            --from-literal=DATABASE_URL="${{ secrets.DATABASE_URL }}" \
+            --from-literal=EMAIL_USER="${{ secrets.EMAIL_USER }}" \
+            --from-literal=EMAIL_PASS="${{ secrets.EMAIL_PASS }}" \
+            --from-literal=EMAIL_FROM="${{ secrets.EMAIL_FROM }}" \
+            --from-literal=POSTGRES_USER="${{ secrets.POSTGRES_USER }}" \
+            --from-literal=POSTGRES_PASSWORD="${{ secrets.POSTGRES_PASSWORD }}" \
+            --from-literal=POSTGRES_DB="${{ secrets.POSTGRES_DB }}" \
+            --dry-run=client -o yaml | kubectl apply -f -
