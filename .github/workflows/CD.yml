@@ -28,9 +28,21 @@ jobs:
             --from-literal=POSTGRES_PASSWORD="${{ secrets.POSTGRES_PASSWORD }}" \
             --from-literal=POSTGRES_DB="${{ secrets.POSTGRES_DB }}" \
             --dry-run=client -o yaml | kubectl apply -f -
-            
+
+      - name: Delete old migration job
+        run: |
+          kubectl delete job migrate-db -n flowform-app --ignore-not-found=true 
+
       - name: Apply Kubernetes manifests
         run: kubectl apply -f k8s/
+
+      - name: Wait for migration to complete
+        run: |
+          kubectl wait \
+            --for=condition=complete \
+            job/migrate-db \
+            -n flowform-app \
+            --timeout=300s
 
       - name: Restart API Deployment
         run: kubectl rollout restart deployment/api-deployment -n flowform-app
