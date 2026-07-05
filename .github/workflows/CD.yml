@@ -12,7 +12,10 @@ jobs:
 
       - name: Verify cluster
         run: kubectl get nodes
-        
+      
+      - name: Creating namespace
+        run: kubectl apply -f k8s/namespace.yml
+
       - name: Create Application Secret
         run: |
           kubectl create secret generic app-secret \
