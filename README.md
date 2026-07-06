@@ -234,3 +234,116 @@ The API uses credentialed CORS and production cookies for cross-origin deploymen
 5. Run Drizzle migrations before starting the API.
 6. Deploy `apps/api` and `apps/web` as separate services.
 7. Share the deployed web URL, Scalar docs URL, and demo credentials above.
+
+## Project Architecture
+
+```text
+                              👨‍💻 Developer
+                                   │
+                                   ▼
+                  ┌────────────────────────────────┐
+                  │        Local Repository         │
+                  └────────────────────────────────┘
+                                   │
+                              Git Push / PR
+                                   │
+                                   ▼
+                  ┌────────────────────────────────┐
+                  │             GitHub             │
+                  └────────────────────────────────┘
+                                   │
+                      Trigger GitHub Actions
+                                   │
+                                   ▼
+          ┌──────────────────────────────────────────────┐
+          │           Continuous Integration             │
+          │                                              │
+          │  ✓ Checkout Source Code                      │
+          │  ✓ Install Dependencies                      │
+          │  ✓ Run Unit/Integration Tests                │
+          │  ✓ Code Quality & Lint Checks                │
+          └──────────────────────────────────────────────┘
+                                   │
+                         Build Docker Image
+                                   │
+                                   ▼
+          ┌──────────────────────────────────────────────┐
+          │             Containerization                 │
+          │                                              │
+          │  ✓ Build Docker Image                        │
+          │  ✓ Tag Image (Commit SHA / Version)          │
+          └──────────────────────────────────────────────┘
+                                   │
+                        Push Image to Docker Hub
+                                   │
+                                   ▼
+                  ┌────────────────────────────────┐
+                  │       Docker Hub Registry       │
+                  └────────────────────────────────┘
+                                   │
+                     Self-Hosted GitHub Runner
+                                   │
+                                   ▼
+          ┌──────────────────────────────────────────────┐
+          │           Continuous Deployment              │
+          │                                              │
+          │  ✓ Pull Latest Docker Image                  │
+          │  ✓ Apply Kubernetes Manifests                │
+          │  ✓ Rolling Update Deployment                 │
+          │  ✓ Verify Deployment Health                  │
+          └──────────────────────────────────────────────┘
+                                   │
+                                   ▼
+          ┌──────────────────────────────────────────────┐
+          │             Kubernetes Cluster               │
+          │                                              │
+          │  • Deployment                                │
+          │  • ReplicaSet                                │
+          │  • Pods                                      │
+          │  • Services                                  │
+          │  • Ingress                                   │
+          └──────────────────────────────────────────────┘
+                                   │
+                                   ▼
+                            🌍 End Users
+```
+
+---
+
+# 🔄 CI/CD Pipeline Overview
+
+```text
+               ┌─────────────┐
+               │   Developer │
+               └──────┬──────┘
+                      │
+                      ▼
+               ┌─────────────┐
+               │    GitHub   │
+               └──────┬──────┘
+                      │
+                      ▼
+          ┌──────────────────────┐
+          │   GitHub Actions CI  │
+          └──────────┬───────────┘
+                     │
+        ┌────────────┼────────────┐
+        │            │            │
+        ▼            ▼            ▼
+   Run Tests     Lint Code    Build Image
+                                     │
+                                     ▼
+                          Push to Docker Hub
+                                     │
+                                     ▼
+                      Self-Hosted GitHub Runner
+                                     │
+                                     ▼
+                         Kubernetes Deployment
+                                     │
+                                     ▼
+                          Rolling Update
+                                     │
+                                     ▼
+                           🚀 Application Live
+```
