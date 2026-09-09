@@ -24,6 +24,7 @@ const configuredOrigins = env.WEB_APP_URL.split(",")
 const allowedOrigins = new Set([
   "http://localhost:3000",
   "http://127.0.0.1:3000",
+  // "http://localhost:4000",  Production Frontend Url
   ...configuredOrigins,
 ]);
 const isProduction = env.NODE_ENV === "prod" || env.NODE_ENV === "production";

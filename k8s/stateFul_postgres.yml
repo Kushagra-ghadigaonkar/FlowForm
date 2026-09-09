@@ -1,0 +1,43 @@
+kind: StatefulSet
+apiVersion: apps/v1
+metadata:
+  name: stateful-postgres
+  namespace: flowform-app
+  labels:
+    app: postgres
+spec:
+  serviceName: postgres-service
+  selector:
+    matchLabels:
+      app: postgres
+  replicas: 2 
+  template: 
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+      - name: postgres-container
+        image: postgres:17
+        ports:
+        - containerPort: 5432
+        envFrom:
+          - secretRef:
+              name: app-secret
+        readinessProbe:
+          exec:
+            command: ["sh","-c","pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+        volumeMounts:
+          - name: postgres-storage
+            mountPath: /var/lib/postgresql/data
+  volumeClaimTemplates:
+    - metadata:
+        name: postgres-storage
+        namespace: flowform-app
+      spec:
+        storageClassName: local-storage
+        accessModes:
+        - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1Gi
