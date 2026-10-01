@@ -13,7 +13,7 @@
     "@repo/database": "workspace:*",
     "@repo/logger": "workspace:*",
     "google-auth-library": "^10.5.0",
-    "nodemailer": "^8.0.7",
+    "nodemailer": "^10.0.9",
     "zod": "^4.3.5"
   }
 }
