@@ -33,7 +33,8 @@ ENV NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
 
 COPY --from=installer /app/ .
 COPY --from=pruner /app/out/full/ .
-RUN pnpm turbo run build --filter=web...
+RUN pnpm turbo run build --filter=web... && \
+    pnpm prune --prod --no-optional
 
 # Stage 5: Production runtime
 FROM cgr.dev/chainguard/node:latest AS runner
@@ -43,16 +44,14 @@ ENV NODE_ENV=production
 ENV HOSTNAME=0.0.0.0
 ENV PORT=3000
 
-# Copy standalone output (includes node_modules and server.js in correct structure)
-COPY --from=builder /app/apps/web/.next/standalone .
+# Copy built app and node_modules
+COPY --from=builder /app/apps/web/.next/standalone ./
+COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/apps/web/.next/static ./apps/web/.next/static
 COPY --from=builder /app/apps/web/public ./apps/web/public
-
-# Health check
-HEALTHCHECK --interval=30s --timeout=10s --start-period=10s --retries=3 \
-    CMD ["node", "-e", "require('http').get('http://localhost:3000/api/health', (r) => {if (r.statusCode !== 200) throw new Error(r.statusCode)})"] || exit 1
+COPY --from=builder /app/apps/web/package.json ./apps/web/package.json
 
 EXPOSE 3000
 
 # Chainguard node image runs as nonroot user by default (uid 65532)
-CMD ["node", "apps/web/server.js"]
+CMD ["node", "--enable-source-maps", "apps/web/server.js"]
