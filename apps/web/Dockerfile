@@ -37,7 +37,7 @@ RUN pnpm turbo run build --filter=web... && \
     pnpm prune --prod --no-optional
 
 # Stage 5: Production runtime
-FROM cgr.dev/chainguard/node:latest AS runner
+FROM node:20-alpine AS runner
 WORKDIR /app
 
 ENV NODE_ENV=production
@@ -51,7 +51,11 @@ COPY --from=builder /app/apps/web/.next/static ./apps/web/.next/static
 COPY --from=builder /app/apps/web/public ./apps/web/public
 COPY --from=builder /app/apps/web/package.json ./apps/web/package.json
 
+RUN addgroup -g 1001 -S nodejs && \
+    adduser -S nextjs -u 1001
+
+USER nextjs
+
 EXPOSE 3000
 
-# Chainguard node image runs as nonroot user by default (uid 65532)
 CMD ["node", "--enable-source-maps", "apps/web/server.js"]
