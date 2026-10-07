@@ -20,7 +20,7 @@ services:
     build:
       context: .
       dockerfile: ./apps/api/Dockerfile
-    image: kushagr488/flowform-api
+    image: kushagr488/flowform-jenkins-api
     environment:
       DATABASE_URL: ${DATABASE_URL}
       PORT: ${BACKEND_PORT}
@@ -40,7 +40,7 @@ services:
       dockerfile: apps/web/Dockerfile
       args:
         NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
-    image: kushagr488/flowform-web
+    image: kushagr488/flowform-jenkins-web
     ports:
       - "${FRONTEND_LOCAL_PORT}:${FRONTEND_PORT}"
     depends_on:
