@@ -40,8 +40,8 @@ RUN pnpm turbo run build --filter=web...
 FROM cgr.dev/chainguard/node:latest AS runner
 WORKDIR /app
 ENV NODE_ENV=production
-# RUN addgroup -S -g 1001 nodejs \
-#     && adduser --system --uid 1001 nextjs
+RUN addgroup -S -g 1001 nodejs \
+     && adduser --system --uid 1001 nextjs
 
 COPY --from=builder /app/apps/web/public ./apps/web/public
 COPY --from=builder --chown=nextjs:nodejs /app/apps/web/.next/standalone ./
